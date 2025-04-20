@@ -1,4 +1,4 @@
 Metric,Value
-Silhouette Score,0.36113596
+Silhouette Score,0.36113595962524414
 Davies-Bouldin Score,1.123188252292577
-Adjusted Rand Index,N/A
+Adjusted Rand Index,0.04388526969039223

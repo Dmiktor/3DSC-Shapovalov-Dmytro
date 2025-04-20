@@ -1,6 +1,7 @@
 import joblib
 import os
 import optuna
+import numpy as np
 from sklearn.cluster import KMeans, DBSCAN, AgglomerativeClustering
 from sklearn.metrics import silhouette_score
 from src.dimensionality import reduce_tsne, reduce_lle, reduce_umap, save_reduced
@@ -94,7 +95,7 @@ def main():
 
             labels_pred = cluster_func(X_red)
 
-            silhouette, db_score, ari = calculate_unsupervised_metrics(X_red, labels_pred)
+            silhouette, db_score, ari = calculate_unsupervised_metrics(X_red, labels_pred, y)
 
             metrics = {
                 "Silhouette Score": silhouette if silhouette is not None else "N/A",
@@ -103,7 +104,9 @@ def main():
             }
 
             metrics_writer.save_metrics(metrics, reduction_name, cluster_name)
-
+            if np.all(labels_pred == -1):
+                print(f"{reduction_name} + {cluster_name}: No clusters found (all -1). Skipping plot.")
+            continue
             plot_clusters(
                 X_red,
                 labels_pred,
